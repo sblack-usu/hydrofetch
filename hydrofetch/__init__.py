@@ -7,7 +7,7 @@ from notebook.utils import url_path_join
 
 def _jupyter_server_extension_paths():
     return [{
-        'module': 'jupyterurlparams',
+        'module': 'hydrofetch',
     }]
 
 
