@@ -22,7 +22,7 @@ setup(
     install_requires=['notebook>=5.5.0', 'tornado'],
     data_files=[
         ('etc/jupyter/jupyter_notebook_config.d',
-         ['jupyterurlparams/etc/jupyterurlparams.json'])
+         ['hydrofetch/etc/hydrofetch.json'])
     ],
     zip_safe=False,
     classifiers=[
