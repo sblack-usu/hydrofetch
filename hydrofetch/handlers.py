@@ -6,6 +6,7 @@ from tornado import (
 from notebook.base.handlers import IPythonHandler
 import os
 import requests
+import shutil
 
 
 class UIHandler(IPythonHandler):
@@ -25,11 +26,13 @@ class UIHandler(IPythonHandler):
             path = 'tree'
 
         downloads = self.get_query_arguments('download')
-        with open("hello_world.txt", 'w') as f:
-            f.write("hello world")
+        downloads.append(self.get_query_arguments("unpack"))
         for download in downloads:
             r = requests.get(download)
             with open(download.split("/")[-1], 'wb') as f:
                 f.write(r.content)
+
+        for archive in self.get_query_arguments("unpack"):
+            shutil.unpack_archive(archive.split("/")[-1])
 
         self.redirect(path)
