@@ -26,13 +26,14 @@ class UIHandler(IPythonHandler):
             path = 'tree'
 
         downloads = self.get_query_arguments('download')
-        downloads.append(self.get_query_arguments("unpack"))
+        unpacks = self.get_query_arguments("unpack")
+        downloads.append(unpacks)
         for download in downloads:
             r = requests.get(download)
             with open(download.split("/")[-1], 'wb') as f:
                 f.write(r.content)
 
-        for archive in self.get_query_arguments("unpack"):
+        for archive in unpacks:
             shutil.unpack_archive(archive.split("/")[-1])
 
         self.redirect(path)
