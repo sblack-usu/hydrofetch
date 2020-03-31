@@ -28,7 +28,7 @@ class UIHandler(IPythonHandler):
         try:
             downloads = self.get_query_arguments('download')
             unpacks = self.get_query_arguments("unpack")
-            downloads.append(unpacks)
+            downloads = downloads + unpacks
             for download in downloads:
                 try:
                     r = requests.get(download)
