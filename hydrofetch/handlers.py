@@ -25,22 +25,25 @@ class UIHandler(IPythonHandler):
         else:
             path = 'tree'
         messages = []
-        downloads = self.get_query_arguments('download')
-        unpacks = self.get_query_arguments("unpack")
-        downloads.append(unpacks)
-        for download in downloads:
-            try:
-                r = requests.get(download)
-                with open(download.split("/")[-1], 'wb') as f:
-                    f.write(r.content)
-            except:
-                messages.append("Failed to download file {}".format(download.split("/")[-1]))
+        try:
+            downloads = self.get_query_arguments('download')
+            unpacks = self.get_query_arguments("unpack")
+            downloads.append(unpacks)
+            for download in downloads:
+                try:
+                    r = requests.get(download)
+                    with open(download.split("/")[-1], 'wb') as f:
+                        f.write(r.content)
+                except:
+                    messages.append("Failed to download file {}".format(download.split("/")[-1]))
 
-        for archive in unpacks:
-            try:
-                shutil.unpack_archive(archive.split("/")[-1])
-            except:
-                messages.append("Failed to unpack file {}".format(archive.split("/")[-1]))
+            for archive in unpacks:
+                try:
+                    shutil.unpack_archive(archive.split("/")[-1])
+                except:
+                    messages.append("Failed to unpack file {}".format(archive.split("/")[-1]))
+        except Exception as e:
+            messages.append(str(e))
 
         if len(messages) > 0:
             with open("launch_notes.txt", 'w') as f:
