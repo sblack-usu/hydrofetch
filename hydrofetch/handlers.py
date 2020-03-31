@@ -25,7 +25,8 @@ class UIHandler(IPythonHandler):
             path = 'tree'
 
         downloads = self.get_query_arguments('download')
-
+        with open("hello_world.txt", 'w') as f:
+            f.write("hello world")
         for download in downloads:
             r = requests.get(download)
             with open(download.split("/")[-1], 'wb') as f:
