@@ -27,21 +27,35 @@ class UIHandler(IPythonHandler):
         messages = []
         try:
             downloads = self.get_query_arguments('download')
-            unpacks = self.get_query_arguments("unpack")
-            downloads = downloads + unpacks
             for download in downloads:
                 try:
                     r = requests.get(download)
-                    with open(download.split("/")[-1], 'wb') as f:
+                    filename = r.url.split("/")[-1]
+                    with open(filename, 'wb') as f:
                         f.write(r.content)
                 except:
-                    messages.append("Failed to download file {}".format(download.split("/")[-1]))
+                    messages.append("Failed to download file {}".format(r.url.split("/")[-1]))
 
-            for archive in unpacks:
+            unpacks = self.get_query_arguments("unpack")
+            for download in unpacks:
                 try:
-                    shutil.unpack_archive(archive.split("/")[-1])
+                    r = requests.get(download)
                 except:
-                    messages.append("Failed to unpack file {}".format(archive.split("/")[-1]))
+                    messages.append("Failed to download file {}".format(filename))
+
+                filename = r.url.split("/")[-1]
+                with open(filename, 'wb') as f:
+                    f.write(r.content)
+                unpacked = False
+                try:
+                    shutil.unpack_archive(filename)
+                    unpacked = True
+                except:
+                    messages.append("Failed to unpack file {}".format(filename))
+                if unpacked:
+                    os.remove(filename)
+
+
         except Exception as e:
             messages.append(str(e))
 
