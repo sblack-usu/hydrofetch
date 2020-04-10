@@ -24,7 +24,7 @@ class UIHandler(IPythonHandler):
             path = 'lab/tree'
         else:
             path = 'tree'
-        filepath = self.get_query_argument('filepath', None)
+        filepath = self.get_query_argument('bfilepath', None)
         if filepath:
             path = path + filepath
         messages = []
