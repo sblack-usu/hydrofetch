@@ -14,11 +14,12 @@ class UIHandler(IPythonHandler):
     @gen.coroutine
     def get(self):
         app_env = os.getenv('URLPARAMS_APP', default='notebook')
-        filePath = (self.get_argument('filepath', None)
+        urlPath = (self.get_argument('urlpath', None) or
+                   self.get_argument('urlPath', None))
         app = self.get_argument('app', app_env)
 
-        if filePath:
-            path = filePath
+        if urlPath:
+            path = urlPath
         elif app.lower() == 'lab':
             path = 'lab/tree'
         else:
