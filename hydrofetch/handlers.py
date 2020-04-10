@@ -24,12 +24,12 @@ class UIHandler(IPythonHandler):
             path = 'lab/tree'
         else:
             path = 'tree'
-        filepath = self.get_query_argument('filepath')
+        filepath = self.get_query_argument('filepath', None)
         if filepath:
             path = path + filepath
         messages = []
         try:
-            downloads = self.get_query_arguments('download')
+            downloads = self.get_query_arguments('download', [])
             for download in downloads:
                 try:
                     r = requests.get(download)
@@ -39,7 +39,7 @@ class UIHandler(IPythonHandler):
                 except:
                     messages.append("Failed to download file {}".format(r.url.split("/")[-1]))
 
-            unpacks = self.get_query_arguments("unpack")
+            unpacks = self.get_query_arguments("unpack", [])
             for download in unpacks:
                 try:
                     r = requests.get(download)
