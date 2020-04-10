@@ -26,7 +26,7 @@ class UIHandler(IPythonHandler):
             path = 'tree'
         filepath = self.get_query_argument('bfilepath', None)
         if filepath:
-            path = path + filepath
+            path = filepath
         messages = []
         try:
             downloads = self.get_query_arguments('download', [])
